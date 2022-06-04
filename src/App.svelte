@@ -16,19 +16,20 @@
 	$: promise = connect()
 	$: connection = window.ethereum ? window.ethereum.isConnected() : false;
 
-	export let name;
+	export let wasm;
+
+	async function wasmGreet() {
+		await wasm.greet_user()
+	}
 </script>
 
 <main>
-	{#if window.ethereum}
-		<div>Connection enabled {connection}</div>
-	{/if}
 	{#if window.ethereum && !connection}
 		<button on:click={connectWallet}>Connect wallet</button>
 	{:else}
-		<h1>Hello</h1>
-		<Contract/>
+		<Contract connected={connection}/>
 	{/if}
+	<h1 on:click={wasmGreet}>WEB ASSEMBLY</h1>
 </main>
 
 <style>

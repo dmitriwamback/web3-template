@@ -287,6 +287,12 @@ var app = (function () {
         }
         info.block.p(child_ctx, dirty);
     }
+
+    const globals = (typeof window !== 'undefined'
+        ? window
+        : typeof globalThis !== 'undefined'
+            ? globalThis
+            : global);
     function create_component(block) {
         block && block.c();
     }
@@ -8141,6 +8147,22 @@ var app = (function () {
     		constant: true,
     		inputs: [
     		],
+    		name: "counter",
+    		outputs: [
+    			{
+    				internalType: "uint256",
+    				name: "",
+    				type: "uint256"
+    			}
+    		],
+    		payable: false,
+    		stateMutability: "view",
+    		type: "function"
+    	},
+    	{
+    		constant: true,
+    		inputs: [
+    		],
     		name: "name",
     		outputs: [
     			{
@@ -8168,23 +8190,39 @@ var app = (function () {
     		payable: false,
     		stateMutability: "pure",
     		type: "function"
+    	},
+    	{
+    		constant: false,
+    		inputs: [
+    		],
+    		name: "increment",
+    		outputs: [
+    			{
+    				internalType: "uint256",
+    				name: "",
+    				type: "uint256"
+    			}
+    		],
+    		payable: false,
+    		stateMutability: "nonpayable",
+    		type: "function"
     	}
     ];
-    var metadata = "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"greet\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Argon.sol\":\"Argon\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Argon.sol\":{\"keccak256\":\"0xf2e8dabd0b02e4e5dbfccafa3cc760a2af2ac117ec3ca5dfaebb4afeca7d9705\",\"urls\":[\"bzz-raw://acfed18a19f921750fd136088d2df9de0441c89bd02670d498cc7e2918f69eef\",\"dweb:/ipfs/QmXRvhuJAFGin56hZRogJM4ZrPmA6LzE2VxZUiJNjU1EuQ\"]}},\"version\":1}";
-    var bytecode = "0x60806040526040518060400160405280600581526020017f4172676f6e0000000000000000000000000000000000000000000000000000008152506000908051906020019061004f929190610062565b5034801561005c57600080fd5b50610107565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106100a357805160ff19168380011785556100d1565b828001600101855582156100d1579182015b828111156100d05782518255916020019190600101906100b5565b5b5090506100de91906100e2565b5090565b61010491905b808211156101005760008160009055506001016100e8565b5090565b90565b610251806101166000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c806306fdde031461003b578063cfae3217146100be575b600080fd5b610043610141565b6040518080602001828103825283818151815260200191508051906020019080838360005b83811015610083578082015181840152602081019050610068565b50505050905090810190601f1680156100b05780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b6100c66101df565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156101065780820151818401526020810190506100eb565b50505050905090810190601f1680156101335780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b60008054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156101d75780601f106101ac576101008083540402835291602001916101d7565b820191906000526020600020905b8154815290600101906020018083116101ba57829003601f168201915b505050505081565b60606040518060400160405280600b81526020017f48656c6c6f20776f726c6400000000000000000000000000000000000000000081525090509056fea265627a7a72315820f0bd64440e5b7b1ea40084288fde59d46406776471552b668f723343a0f112f364736f6c63430005100032";
-    var deployedBytecode = "0x608060405234801561001057600080fd5b50600436106100365760003560e01c806306fdde031461003b578063cfae3217146100be575b600080fd5b610043610141565b6040518080602001828103825283818151815260200191508051906020019080838360005b83811015610083578082015181840152602081019050610068565b50505050905090810190601f1680156100b05780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b6100c66101df565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156101065780820151818401526020810190506100eb565b50505050905090810190601f1680156101335780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b60008054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156101d75780601f106101ac576101008083540402835291602001916101d7565b820191906000526020600020905b8154815290600101906020018083116101ba57829003601f168201915b505050505081565b60606040518060400160405280600b81526020017f48656c6c6f20776f726c6400000000000000000000000000000000000000000081525090509056fea265627a7a72315820f0bd64440e5b7b1ea40084288fde59d46406776471552b668f723343a0f112f364736f6c63430005100032";
-    var sourceMap = "66:148:0:-;;;87:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;66:148;8:9:-1;5:2;;;30:1;27;20:12;5:2;66:148:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;";
-    var deployedSourceMap = "66:148:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;66:148:0;;;;;;;;;;;;;;;;;;;;;;;;87:28;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;87:28:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;122:90;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;122:90:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;87:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;122:90::-;160:13;185:20;;;;;;;;;;;;;;;;;;;122:90;:::o";
-    var source = "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\ncontract Argon {\n    string public name = \"Argon\";\n\n    function greet() public pure returns (string memory) {\n        return \"Hello world\";\n    }\n}";
+    var metadata = "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"counter\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"greet\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"increment\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Argon.sol\":\"Argon\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Argon.sol\":{\"keccak256\":\"0x8f7a20d74848aba2ca5b110ea18205fd40fc40dbed4f64eefc3dfdb6db1c30c9\",\"urls\":[\"bzz-raw://0ecfd18903d5e4eaf289d467a3e8c705035b4ce9c6100190cad634e47e059064\",\"dweb:/ipfs/QmXKgXXjBAvDdfcTN6m3XwP9XyiUXiDF2193jhCVa3FbVG\"]}},\"version\":1}";
+    var bytecode = "0x60806040526040518060400160405280600581526020017f4172676f6e0000000000000000000000000000000000000000000000000000008152506000908051906020019061004f929190610067565b50600060015534801561006157600080fd5b5061010c565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106100a857805160ff19168380011785556100d6565b828001600101855582156100d6579182015b828111156100d55782518255916020019190600101906100ba565b5b5090506100e391906100e7565b5090565b61010991905b808211156101055760008160009055506001016100ed565b5090565b90565b6102be8061011b6000396000f3fe608060405234801561001057600080fd5b506004361061004c5760003560e01c806306fdde031461005157806361bc221a146100d4578063cfae3217146100f2578063d09de08a14610175575b600080fd5b610059610193565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561009957808201518184015260208101905061007e565b50505050905090810190601f1680156100c65780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b6100dc610231565b6040518082815260200191505060405180910390f35b6100fa610237565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561013a57808201518184015260208101905061011f565b50505050905090810190601f1680156101675780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b61017d610274565b6040518082815260200191505060405180910390f35b60008054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156102295780601f106101fe57610100808354040283529160200191610229565b820191906000526020600020905b81548152906001019060200180831161020c57829003601f168201915b505050505081565b60015481565b60606040518060400160405280600581526020017f48454c4c4f000000000000000000000000000000000000000000000000000000815250905090565b6000600180540160018190555060015490509056fea265627a7a723158203913a9cbade957cb9cc545231fe9348c71ffa61d4d00c95bc7e668385b9700ab64736f6c63430005100032";
+    var deployedBytecode = "0x608060405234801561001057600080fd5b506004361061004c5760003560e01c806306fdde031461005157806361bc221a146100d4578063cfae3217146100f2578063d09de08a14610175575b600080fd5b610059610193565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561009957808201518184015260208101905061007e565b50505050905090810190601f1680156100c65780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b6100dc610231565b6040518082815260200191505060405180910390f35b6100fa610237565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561013a57808201518184015260208101905061011f565b50505050905090810190601f1680156101675780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b61017d610274565b6040518082815260200191505060405180910390f35b60008054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156102295780601f106101fe57610100808354040283529160200191610229565b820191906000526020600020905b81548152906001019060200180831161020c57829003601f168201915b505050505081565b60015481565b60606040518060400160405280600581526020017f48454c4c4f000000000000000000000000000000000000000000000000000000815250905090565b6000600180540160018190555060015490509056fea265627a7a723158203913a9cbade957cb9cc545231fe9348c71ffa61d4d00c95bc7e668385b9700ab64736f6c63430005100032";
+    var sourceMap = "66:288:0:-;;;87:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;146:1;121:26;;66:288;8:9:-1;5:2;;;30:1;27;20:12;5:2;66:288:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;";
+    var deployedSourceMap = "66:288:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;66:288:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;87:28;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;87:28:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;121:26;;;:::i;:::-;;;;;;;;;;;;;;;;;;;154:84;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;154:84:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;244:108;;;:::i;:::-;;;;;;;;;;;;;;;;;;;87:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;121:26::-;;;;:::o;154:84::-;192:13;217:14;;;;;;;;;;;;;;;;;;;154:84;:::o;244:108::-;281:7;320:1;310:7;;:11;300:7;:21;;;;338:7;;331:14;;244:108;:::o";
+    var source = "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\ncontract Argon {\n    string public name = \"Argon\";\n    uint256 public counter = 0;\n\n    function greet() public pure returns (string memory) {\n        return \"HELLO\";\n    }\n\n    function increment() public returns (uint256) {\n        counter = counter + 1;\n        return counter;\n    }\n}";
     var sourcePath = "/Users/newtest/Documents/Projects/argon/contracts/Argon.sol";
     var ast = {
     	absolutePath: "project:/contracts/Argon.sol",
     	exportedSymbols: {
     		Argon: [
-    			13
+    			30
     		]
     	},
-    	id: 14,
+    	id: 31,
     	nodeType: "SourceUnit",
     	nodes: [
     		{
@@ -8209,9 +8247,9 @@ var app = (function () {
     			contractKind: "contract",
     			documentation: null,
     			fullyImplemented: true,
-    			id: 13,
+    			id: 30,
     			linearizedBaseContracts: [
-    				13
+    				30
     			],
     			name: "Argon",
     			nodeType: "ContractDefinition",
@@ -8221,7 +8259,7 @@ var app = (function () {
     					id: 4,
     					name: "name",
     					nodeType: "VariableDeclaration",
-    					scope: 13,
+    					scope: 30,
     					src: "87:28:0",
     					stateVariable: true,
     					storageLocation: "default",
@@ -8260,39 +8298,82 @@ var app = (function () {
     					visibility: "public"
     				},
     				{
+    					constant: false,
+    					id: 7,
+    					name: "counter",
+    					nodeType: "VariableDeclaration",
+    					scope: 30,
+    					src: "121:26:0",
+    					stateVariable: true,
+    					storageLocation: "default",
+    					typeDescriptions: {
+    						typeIdentifier: "t_uint256",
+    						typeString: "uint256"
+    					},
+    					typeName: {
+    						id: 5,
+    						name: "uint256",
+    						nodeType: "ElementaryTypeName",
+    						src: "121:7:0",
+    						typeDescriptions: {
+    							typeIdentifier: "t_uint256",
+    							typeString: "uint256"
+    						}
+    					},
+    					value: {
+    						argumentTypes: null,
+    						hexValue: "30",
+    						id: 6,
+    						isConstant: false,
+    						isLValue: false,
+    						isPure: true,
+    						kind: "number",
+    						lValueRequested: false,
+    						nodeType: "Literal",
+    						src: "146:1:0",
+    						subdenomination: null,
+    						typeDescriptions: {
+    							typeIdentifier: "t_rational_0_by_1",
+    							typeString: "int_const 0"
+    						},
+    						value: "0"
+    					},
+    					visibility: "public"
+    				},
+    				{
     					body: {
-    						id: 11,
+    						id: 14,
     						nodeType: "Block",
-    						src: "175:37:0",
+    						src: "207:31:0",
     						statements: [
     							{
     								expression: {
     									argumentTypes: null,
-    									hexValue: "48656c6c6f20776f726c64",
-    									id: 9,
+    									hexValue: "48454c4c4f",
+    									id: 12,
     									isConstant: false,
     									isLValue: false,
     									isPure: true,
     									kind: "string",
     									lValueRequested: false,
     									nodeType: "Literal",
-    									src: "192:13:0",
+    									src: "224:7:0",
     									subdenomination: null,
     									typeDescriptions: {
-    										typeIdentifier: "t_stringliteral_ed6c11b0b5b808960df26f5bfc471d04c1995b0ffd2055925ad1be28d6baadfd",
-    										typeString: "literal_string \"Hello world\""
+    										typeIdentifier: "t_stringliteral_1a5d6cb6ecd5059e65b5a6e8117beede444b8b1152787f00a4d98dca32f02fd4",
+    										typeString: "literal_string \"HELLO\""
     									},
-    									value: "Hello world"
+    									value: "HELLO"
     								},
-    								functionReturnParameters: 8,
-    								id: 10,
+    								functionReturnParameters: 11,
+    								id: 13,
     								nodeType: "Return",
-    								src: "185:20:0"
+    								src: "217:14:0"
     							}
     						]
     					},
     					documentation: null,
-    					id: 12,
+    					id: 15,
     					implemented: true,
     					kind: "function",
     					modifiers: [
@@ -8300,23 +8381,23 @@ var app = (function () {
     					name: "greet",
     					nodeType: "FunctionDefinition",
     					parameters: {
-    						id: 5,
+    						id: 8,
     						nodeType: "ParameterList",
     						parameters: [
     						],
-    						src: "136:2:0"
+    						src: "168:2:0"
     					},
     					returnParameters: {
-    						id: 8,
+    						id: 11,
     						nodeType: "ParameterList",
     						parameters: [
     							{
     								constant: false,
-    								id: 7,
+    								id: 10,
     								name: "",
     								nodeType: "VariableDeclaration",
-    								scope: 12,
-    								src: "160:13:0",
+    								scope: 15,
+    								src: "192:13:0",
     								stateVariable: false,
     								storageLocation: "memory",
     								typeDescriptions: {
@@ -8324,10 +8405,10 @@ var app = (function () {
     									typeString: "string"
     								},
     								typeName: {
-    									id: 6,
+    									id: 9,
     									name: "string",
     									nodeType: "ElementaryTypeName",
-    									src: "160:6:0",
+    									src: "192:6:0",
     									typeDescriptions: {
     										typeIdentifier: "t_string_storage_ptr",
     										typeString: "string"
@@ -8337,27 +8418,194 @@ var app = (function () {
     								visibility: "internal"
     							}
     						],
-    						src: "159:15:0"
+    						src: "191:15:0"
     					},
-    					scope: 13,
-    					src: "122:90:0",
+    					scope: 30,
+    					src: "154:84:0",
     					stateMutability: "pure",
+    					superFunction: null,
+    					visibility: "public"
+    				},
+    				{
+    					body: {
+    						id: 28,
+    						nodeType: "Block",
+    						src: "290:62:0",
+    						statements: [
+    							{
+    								expression: {
+    									argumentTypes: null,
+    									id: 24,
+    									isConstant: false,
+    									isLValue: false,
+    									isPure: false,
+    									lValueRequested: false,
+    									leftHandSide: {
+    										argumentTypes: null,
+    										id: 20,
+    										name: "counter",
+    										nodeType: "Identifier",
+    										overloadedDeclarations: [
+    										],
+    										referencedDeclaration: 7,
+    										src: "300:7:0",
+    										typeDescriptions: {
+    											typeIdentifier: "t_uint256",
+    											typeString: "uint256"
+    										}
+    									},
+    									nodeType: "Assignment",
+    									operator: "=",
+    									rightHandSide: {
+    										argumentTypes: null,
+    										commonType: {
+    											typeIdentifier: "t_uint256",
+    											typeString: "uint256"
+    										},
+    										id: 23,
+    										isConstant: false,
+    										isLValue: false,
+    										isPure: false,
+    										lValueRequested: false,
+    										leftExpression: {
+    											argumentTypes: null,
+    											id: 21,
+    											name: "counter",
+    											nodeType: "Identifier",
+    											overloadedDeclarations: [
+    											],
+    											referencedDeclaration: 7,
+    											src: "310:7:0",
+    											typeDescriptions: {
+    												typeIdentifier: "t_uint256",
+    												typeString: "uint256"
+    											}
+    										},
+    										nodeType: "BinaryOperation",
+    										operator: "+",
+    										rightExpression: {
+    											argumentTypes: null,
+    											hexValue: "31",
+    											id: 22,
+    											isConstant: false,
+    											isLValue: false,
+    											isPure: true,
+    											kind: "number",
+    											lValueRequested: false,
+    											nodeType: "Literal",
+    											src: "320:1:0",
+    											subdenomination: null,
+    											typeDescriptions: {
+    												typeIdentifier: "t_rational_1_by_1",
+    												typeString: "int_const 1"
+    											},
+    											value: "1"
+    										},
+    										src: "310:11:0",
+    										typeDescriptions: {
+    											typeIdentifier: "t_uint256",
+    											typeString: "uint256"
+    										}
+    									},
+    									src: "300:21:0",
+    									typeDescriptions: {
+    										typeIdentifier: "t_uint256",
+    										typeString: "uint256"
+    									}
+    								},
+    								id: 25,
+    								nodeType: "ExpressionStatement",
+    								src: "300:21:0"
+    							},
+    							{
+    								expression: {
+    									argumentTypes: null,
+    									id: 26,
+    									name: "counter",
+    									nodeType: "Identifier",
+    									overloadedDeclarations: [
+    									],
+    									referencedDeclaration: 7,
+    									src: "338:7:0",
+    									typeDescriptions: {
+    										typeIdentifier: "t_uint256",
+    										typeString: "uint256"
+    									}
+    								},
+    								functionReturnParameters: 19,
+    								id: 27,
+    								nodeType: "Return",
+    								src: "331:14:0"
+    							}
+    						]
+    					},
+    					documentation: null,
+    					id: 29,
+    					implemented: true,
+    					kind: "function",
+    					modifiers: [
+    					],
+    					name: "increment",
+    					nodeType: "FunctionDefinition",
+    					parameters: {
+    						id: 16,
+    						nodeType: "ParameterList",
+    						parameters: [
+    						],
+    						src: "262:2:0"
+    					},
+    					returnParameters: {
+    						id: 19,
+    						nodeType: "ParameterList",
+    						parameters: [
+    							{
+    								constant: false,
+    								id: 18,
+    								name: "",
+    								nodeType: "VariableDeclaration",
+    								scope: 29,
+    								src: "281:7:0",
+    								stateVariable: false,
+    								storageLocation: "default",
+    								typeDescriptions: {
+    									typeIdentifier: "t_uint256",
+    									typeString: "uint256"
+    								},
+    								typeName: {
+    									id: 17,
+    									name: "uint256",
+    									nodeType: "ElementaryTypeName",
+    									src: "281:7:0",
+    									typeDescriptions: {
+    										typeIdentifier: "t_uint256",
+    										typeString: "uint256"
+    									}
+    								},
+    								value: null,
+    								visibility: "internal"
+    							}
+    						],
+    						src: "280:9:0"
+    					},
+    					scope: 30,
+    					src: "244:108:0",
+    					stateMutability: "nonpayable",
     					superFunction: null,
     					visibility: "public"
     				}
     			],
-    			scope: 14,
-    			src: "66:148:0"
+    			scope: 31,
+    			src: "66:288:0"
     		}
     	],
-    	src: "32:182:0"
+    	src: "32:322:0"
     };
     var legacyAST = {
     	attributes: {
     		absolutePath: "project:/contracts/Argon.sol",
     		exportedSymbols: {
     			Argon: [
-    				13
+    				30
     			]
     		}
     	},
@@ -8390,17 +8638,17 @@ var app = (function () {
     				documentation: null,
     				fullyImplemented: true,
     				linearizedBaseContracts: [
-    					13
+    					30
     				],
     				name: "Argon",
-    				scope: 14
+    				scope: 31
     			},
     			children: [
     				{
     					attributes: {
     						constant: false,
     						name: "name",
-    						scope: 13,
+    						scope: 30,
     						stateVariable: true,
     						storageLocation: "default",
     						type: "string",
@@ -8440,6 +8688,48 @@ var app = (function () {
     				},
     				{
     					attributes: {
+    						constant: false,
+    						name: "counter",
+    						scope: 30,
+    						stateVariable: true,
+    						storageLocation: "default",
+    						type: "uint256",
+    						visibility: "public"
+    					},
+    					children: [
+    						{
+    							attributes: {
+    								name: "uint256",
+    								type: "uint256"
+    							},
+    							id: 5,
+    							name: "ElementaryTypeName",
+    							src: "121:7:0"
+    						},
+    						{
+    							attributes: {
+    								argumentTypes: null,
+    								hexvalue: "30",
+    								isConstant: false,
+    								isLValue: false,
+    								isPure: true,
+    								lValueRequested: false,
+    								subdenomination: null,
+    								token: "number",
+    								type: "int_const 0",
+    								value: "0"
+    							},
+    							id: 6,
+    							name: "Literal",
+    							src: "146:1:0"
+    						}
+    					],
+    					id: 7,
+    					name: "VariableDeclaration",
+    					src: "121:26:0"
+    				},
+    				{
+    					attributes: {
     						documentation: null,
     						implemented: true,
     						isConstructor: false,
@@ -8448,7 +8738,7 @@ var app = (function () {
     							null
     						],
     						name: "greet",
-    						scope: 13,
+    						scope: 30,
     						stateMutability: "pure",
     						superFunction: null,
     						visibility: "public"
@@ -8462,9 +8752,9 @@ var app = (function () {
     							},
     							children: [
     							],
-    							id: 5,
+    							id: 8,
     							name: "ParameterList",
-    							src: "136:2:0"
+    							src: "168:2:0"
     						},
     						{
     							children: [
@@ -8472,7 +8762,7 @@ var app = (function () {
     									attributes: {
     										constant: false,
     										name: "",
-    										scope: 12,
+    										scope: 15,
     										stateVariable: false,
     										storageLocation: "memory",
     										type: "string",
@@ -8485,68 +8775,253 @@ var app = (function () {
     												name: "string",
     												type: "string"
     											},
-    											id: 6,
+    											id: 9,
     											name: "ElementaryTypeName",
-    											src: "160:6:0"
+    											src: "192:6:0"
     										}
     									],
-    									id: 7,
+    									id: 10,
     									name: "VariableDeclaration",
-    									src: "160:13:0"
+    									src: "192:13:0"
     								}
     							],
-    							id: 8,
+    							id: 11,
     							name: "ParameterList",
-    							src: "159:15:0"
+    							src: "191:15:0"
     						},
     						{
     							children: [
     								{
     									attributes: {
-    										functionReturnParameters: 8
+    										functionReturnParameters: 11
     									},
     									children: [
     										{
     											attributes: {
     												argumentTypes: null,
-    												hexvalue: "48656c6c6f20776f726c64",
+    												hexvalue: "48454c4c4f",
     												isConstant: false,
     												isLValue: false,
     												isPure: true,
     												lValueRequested: false,
     												subdenomination: null,
     												token: "string",
-    												type: "literal_string \"Hello world\"",
-    												value: "Hello world"
+    												type: "literal_string \"HELLO\"",
+    												value: "HELLO"
     											},
-    											id: 9,
+    											id: 12,
     											name: "Literal",
-    											src: "192:13:0"
+    											src: "224:7:0"
     										}
     									],
-    									id: 10,
+    									id: 13,
     									name: "Return",
-    									src: "185:20:0"
+    									src: "217:14:0"
     								}
     							],
-    							id: 11,
+    							id: 14,
     							name: "Block",
-    							src: "175:37:0"
+    							src: "207:31:0"
     						}
     					],
-    					id: 12,
+    					id: 15,
     					name: "FunctionDefinition",
-    					src: "122:90:0"
+    					src: "154:84:0"
+    				},
+    				{
+    					attributes: {
+    						documentation: null,
+    						implemented: true,
+    						isConstructor: false,
+    						kind: "function",
+    						modifiers: [
+    							null
+    						],
+    						name: "increment",
+    						scope: 30,
+    						stateMutability: "nonpayable",
+    						superFunction: null,
+    						visibility: "public"
+    					},
+    					children: [
+    						{
+    							attributes: {
+    								parameters: [
+    									null
+    								]
+    							},
+    							children: [
+    							],
+    							id: 16,
+    							name: "ParameterList",
+    							src: "262:2:0"
+    						},
+    						{
+    							children: [
+    								{
+    									attributes: {
+    										constant: false,
+    										name: "",
+    										scope: 29,
+    										stateVariable: false,
+    										storageLocation: "default",
+    										type: "uint256",
+    										value: null,
+    										visibility: "internal"
+    									},
+    									children: [
+    										{
+    											attributes: {
+    												name: "uint256",
+    												type: "uint256"
+    											},
+    											id: 17,
+    											name: "ElementaryTypeName",
+    											src: "281:7:0"
+    										}
+    									],
+    									id: 18,
+    									name: "VariableDeclaration",
+    									src: "281:7:0"
+    								}
+    							],
+    							id: 19,
+    							name: "ParameterList",
+    							src: "280:9:0"
+    						},
+    						{
+    							children: [
+    								{
+    									children: [
+    										{
+    											attributes: {
+    												argumentTypes: null,
+    												isConstant: false,
+    												isLValue: false,
+    												isPure: false,
+    												lValueRequested: false,
+    												operator: "=",
+    												type: "uint256"
+    											},
+    											children: [
+    												{
+    													attributes: {
+    														argumentTypes: null,
+    														overloadedDeclarations: [
+    															null
+    														],
+    														referencedDeclaration: 7,
+    														type: "uint256",
+    														value: "counter"
+    													},
+    													id: 20,
+    													name: "Identifier",
+    													src: "300:7:0"
+    												},
+    												{
+    													attributes: {
+    														argumentTypes: null,
+    														commonType: {
+    															typeIdentifier: "t_uint256",
+    															typeString: "uint256"
+    														},
+    														isConstant: false,
+    														isLValue: false,
+    														isPure: false,
+    														lValueRequested: false,
+    														operator: "+",
+    														type: "uint256"
+    													},
+    													children: [
+    														{
+    															attributes: {
+    																argumentTypes: null,
+    																overloadedDeclarations: [
+    																	null
+    																],
+    																referencedDeclaration: 7,
+    																type: "uint256",
+    																value: "counter"
+    															},
+    															id: 21,
+    															name: "Identifier",
+    															src: "310:7:0"
+    														},
+    														{
+    															attributes: {
+    																argumentTypes: null,
+    																hexvalue: "31",
+    																isConstant: false,
+    																isLValue: false,
+    																isPure: true,
+    																lValueRequested: false,
+    																subdenomination: null,
+    																token: "number",
+    																type: "int_const 1",
+    																value: "1"
+    															},
+    															id: 22,
+    															name: "Literal",
+    															src: "320:1:0"
+    														}
+    													],
+    													id: 23,
+    													name: "BinaryOperation",
+    													src: "310:11:0"
+    												}
+    											],
+    											id: 24,
+    											name: "Assignment",
+    											src: "300:21:0"
+    										}
+    									],
+    									id: 25,
+    									name: "ExpressionStatement",
+    									src: "300:21:0"
+    								},
+    								{
+    									attributes: {
+    										functionReturnParameters: 19
+    									},
+    									children: [
+    										{
+    											attributes: {
+    												argumentTypes: null,
+    												overloadedDeclarations: [
+    													null
+    												],
+    												referencedDeclaration: 7,
+    												type: "uint256",
+    												value: "counter"
+    											},
+    											id: 26,
+    											name: "Identifier",
+    											src: "338:7:0"
+    										}
+    									],
+    									id: 27,
+    									name: "Return",
+    									src: "331:14:0"
+    								}
+    							],
+    							id: 28,
+    							name: "Block",
+    							src: "290:62:0"
+    						}
+    					],
+    					id: 29,
+    					name: "FunctionDefinition",
+    					src: "244:108:0"
     				}
     			],
-    			id: 13,
+    			id: 30,
     			name: "ContractDefinition",
-    			src: "66:148:0"
+    			src: "66:288:0"
     		}
     	],
-    	id: 14,
+    	id: 31,
     	name: "SourceUnit",
-    	src: "32:182:0"
+    	src: "32:322:0"
     };
     var compiler = {
     	name: "solc",
@@ -8558,12 +9033,12 @@ var app = (function () {
     		},
     		links: {
     		},
-    		address: "0x3B33F04F903fF09C4e81A8f5FE453FCf2CFd6f15",
-    		transactionHash: "0x3b47c4e13546af7d132e7d9fc4559959362f79303e6ae2fca3e063e3741b42b7"
+    		address: "0xAca77561D1093caF8aAbbA873848f709DDb0F618",
+    		transactionHash: "0xf17eadcbae56c2a2e889d2b79c1655255c6aca5e0781f8b0a473225ac82a6e36"
     	}
     };
     var schemaVersion = "3.4.7";
-    var updatedAt = "2022-06-04T01:54:58.023Z";
+    var updatedAt = "2022-06-04T11:43:56.941Z";
     var networkType = "ethereum";
     var devdoc = {
     	methods: {
@@ -8595,6 +9070,8 @@ var app = (function () {
     };
 
     /* src/Contract.svelte generated by Svelte v3.48.0 */
+
+    const { console: console_1 } = globals;
     const file$1 = "src/Contract.svelte";
 
     // (1:0) <script>     import { Web3 }
@@ -8612,26 +9089,40 @@ var app = (function () {
     	return block;
     }
 
-    // (20:0) {:then greeting}
+    // (38:0) {:then greeting}
     function create_then_block(ctx) {
+    	let p;
+    	let t0_value = /*accounts*/ ctx[0][0] + "";
+    	let t0;
+    	let t1;
     	let h1;
-    	let t_value = /*greeting*/ ctx[2] + "";
-    	let t;
+    	let t2_value = /*greeting*/ ctx[7] + "";
+    	let t2;
 
     	const block = {
     		c: function create() {
+    			p = element("p");
+    			t0 = text(t0_value);
+    			t1 = space();
     			h1 = element("h1");
-    			t = text(t_value);
-    			add_location(h1, file$1, 20, 4, 576);
+    			t2 = text(t2_value);
+    			add_location(p, file$1, 38, 4, 1020);
+    			add_location(h1, file$1, 39, 4, 1045);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, p, anchor);
+    			append_dev(p, t0);
+    			insert_dev(target, t1, anchor);
     			insert_dev(target, h1, anchor);
-    			append_dev(h1, t);
+    			append_dev(h1, t2);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*promise*/ 1 && t_value !== (t_value = /*greeting*/ ctx[2] + "")) set_data_dev(t, t_value);
+    			if (dirty & /*accounts*/ 1 && t0_value !== (t0_value = /*accounts*/ ctx[0][0] + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*promise*/ 2 && t2_value !== (t2_value = /*greeting*/ ctx[7] + "")) set_data_dev(t2, t2_value);
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(p);
+    			if (detaching) detach_dev(t1);
     			if (detaching) detach_dev(h1);
     		}
     	};
@@ -8640,14 +9131,14 @@ var app = (function () {
     		block,
     		id: create_then_block.name,
     		type: "then",
-    		source: "(20:0) {:then greeting}",
+    		source: "(38:0) {:then greeting}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (18:16)      <h1>Loading</h1> {:then greeting}
+    // (36:16)      <h1>Loading</h1> {:then greeting}
     function create_pending_block(ctx) {
     	let h1;
 
@@ -8655,7 +9146,7 @@ var app = (function () {
     		c: function create() {
     			h1 = element("h1");
     			h1.textContent = "Loading";
-    			add_location(h1, file$1, 18, 4, 538);
+    			add_location(h1, file$1, 36, 4, 982);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -8670,7 +9161,7 @@ var app = (function () {
     		block,
     		id: create_pending_block.name,
     		type: "pending",
-    		source: "(18:16)      <h1>Loading</h1> {:then greeting}",
+    		source: "(36:16)      <h1>Loading</h1> {:then greeting}",
     		ctx
     	});
 
@@ -8689,10 +9180,10 @@ var app = (function () {
     		pending: create_pending_block,
     		then: create_then_block,
     		catch: create_catch_block,
-    		value: 2
+    		value: 7
     	};
 
-    	handle_promise(promise_1 = /*promise*/ ctx[0], info);
+    	handle_promise(promise_1 = /*promise*/ ctx[1], info);
 
     	const block = {
     		c: function create() {
@@ -8712,7 +9203,7 @@ var app = (function () {
     			ctx = new_ctx;
     			info.ctx = ctx;
 
-    			if (dirty & /*promise*/ 1 && promise_1 !== (promise_1 = /*promise*/ ctx[0]) && handle_promise(promise_1, info)) ; else {
+    			if (dirty & /*promise*/ 2 && promise_1 !== (promise_1 = /*promise*/ ctx[1]) && handle_promise(promise_1, info)) ; else {
     				update_await_block_branch(info, ctx, dirty);
     			}
     		},
@@ -8741,40 +9232,78 @@ var app = (function () {
     	let promise;
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Contract', slots, []);
+    	var accounts;
+    	var contract;
+    	var web3;
+    	let { connected } = $$props;
 
-    	async function greet() {
-    		const web3 = new Web3$1(window.ethereum);
-    		const networkId = await web3.eth.net.getId();
-    		const deployedNetwork = ArgonContract.networks[networkId];
-    		const contract = new web3.eth.Contract(ArgonContract.abi, deployedNetwork.address);
-    		const response = await contract.methods.greet().call();
+    	async function initWeb3() {
+    		web3 = new Web3$1(window.ethereum);
+
+    		if (connected) {
+    			$$invalidate(0, accounts = await web3.eth.getAccounts());
+    			console.log(accounts);
+
+    			if (accounts.length > 0) {
+    				const networkId = await web3.eth.net.getId();
+    				const deployedNetwork = ArgonContract.networks[networkId];
+    				contract = new web3.eth.Contract(ArgonContract.abi, deployedNetwork.address);
+    			}
+
+    			const bal = await increment();
+    			return "Hello " + bal + " eth";
+    		}
+
+    		return "Not connected";
+    	}
+
+    	async function increment() {
+    		const response = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]));
     		return response;
     	}
 
-    	const writable_props = [];
+    	const writable_props = ['connected'];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Contract> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<Contract> was created with unknown prop '${key}'`);
     	});
 
-    	$$self.$capture_state = () => ({ Web3: Web3$1, ArgonContract, greet, promise });
+    	$$self.$$set = $$props => {
+    		if ('connected' in $$props) $$invalidate(2, connected = $$props.connected);
+    	};
+
+    	$$self.$capture_state = () => ({
+    		Web3: Web3$1,
+    		ArgonContract,
+    		accounts,
+    		contract,
+    		web3,
+    		connected,
+    		initWeb3,
+    		increment,
+    		promise
+    	});
 
     	$$self.$inject_state = $$props => {
-    		if ('promise' in $$props) $$invalidate(0, promise = $$props.promise);
+    		if ('accounts' in $$props) $$invalidate(0, accounts = $$props.accounts);
+    		if ('contract' in $$props) contract = $$props.contract;
+    		if ('web3' in $$props) web3 = $$props.web3;
+    		if ('connected' in $$props) $$invalidate(2, connected = $$props.connected);
+    		if ('promise' in $$props) $$invalidate(1, promise = $$props.promise);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	$$invalidate(0, promise = greet());
-    	return [promise];
+    	$$invalidate(1, promise = initWeb3());
+    	return [accounts, promise, connected];
     }
 
     class Contract extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init$2(this, options, instance$1, create_fragment$1, safe_not_equal, {});
+    		init$2(this, options, instance$1, create_fragment$1, safe_not_equal, { connected: 2 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -8782,73 +9311,50 @@ var app = (function () {
     			options,
     			id: create_fragment$1.name
     		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*connected*/ ctx[2] === undefined && !('connected' in props)) {
+    			console_1.warn("<Contract> was created without expected prop 'connected'");
+    		}
+    	}
+
+    	get connected() {
+    		throw new Error("<Contract>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set connected(value) {
+    		throw new Error("<Contract>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
     /* src/App.svelte generated by Svelte v3.48.0 */
     const file = "src/App.svelte";
 
-    // (23:1) {#if window.ethereum}
-    function create_if_block_1(ctx) {
-    	let div;
-    	let t0;
-    	let t1;
-
-    	const block = {
-    		c: function create() {
-    			div = element("div");
-    			t0 = text("Connection enabled ");
-    			t1 = text(/*connection*/ ctx[0]);
-    			add_location(div, file, 23, 2, 443);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			append_dev(div, t0);
-    			append_dev(div, t1);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*connection*/ 1) set_data_dev(t1, /*connection*/ ctx[0]);
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_1.name,
-    		type: "if",
-    		source: "(23:1) {#if window.ethereum}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (28:1) {:else}
+    // (29:1) {:else}
     function create_else_block(ctx) {
-    	let h1;
-    	let t1;
     	let contract;
     	let current;
-    	contract = new Contract({ $$inline: true });
+
+    	contract = new Contract({
+    			props: { connected: /*connection*/ ctx[0] },
+    			$$inline: true
+    		});
 
     	const block = {
     		c: function create() {
-    			h1 = element("h1");
-    			h1.textContent = "Hello";
-    			t1 = space();
     			create_component(contract.$$.fragment);
-    			attr_dev(h1, "class", "svelte-1hoz2al");
-    			add_location(h1, file, 28, 2, 601);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, h1, anchor);
-    			insert_dev(target, t1, anchor);
     			mount_component(contract, target, anchor);
     			current = true;
     		},
-    		p: noop$1,
+    		p: function update(ctx, dirty) {
+    			const contract_changes = {};
+    			if (dirty & /*connection*/ 1) contract_changes.connected = /*connection*/ ctx[0];
+    			contract.$set(contract_changes);
+    		},
     		i: function intro(local) {
     			if (current) return;
     			transition_in(contract.$$.fragment, local);
@@ -8859,8 +9365,6 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(h1);
-    			if (detaching) detach_dev(t1);
     			destroy_component(contract, detaching);
     		}
     	};
@@ -8869,14 +9373,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(28:1) {:else}",
+    		source: "(29:1) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (26:1) {#if window.ethereum && !connection}
+    // (27:1) {#if window.ethereum && !connection}
     function create_if_block(ctx) {
     	let button;
     	let mounted;
@@ -8886,7 +9390,7 @@ var app = (function () {
     		c: function create() {
     			button = element("button");
     			button.textContent = "Connect wallet";
-    			add_location(button, file, 26, 2, 533);
+    			add_location(button, file, 27, 2, 518);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -8910,7 +9414,7 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(26:1) {#if window.ethereum && !connection}",
+    		source: "(27:1) {#if window.ethereum && !connection}",
     		ctx
     	});
 
@@ -8919,11 +9423,13 @@ var app = (function () {
 
     function create_fragment(ctx) {
     	let main;
-    	let t;
     	let current_block_type_index;
-    	let if_block1;
+    	let if_block;
+    	let t0;
+    	let h1;
     	let current;
-    	let if_block0 = window.ethereum && create_if_block_1(ctx);
+    	let mounted;
+    	let dispose;
     	const if_block_creators = [create_if_block, create_else_block];
     	const if_blocks = [];
 
@@ -8933,29 +9439,36 @@ var app = (function () {
     	}
 
     	current_block_type_index = select_block_type(ctx);
-    	if_block1 = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    	if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
 
     	const block = {
     		c: function create() {
     			main = element("main");
-    			if (if_block0) if_block0.c();
-    			t = space();
-    			if_block1.c();
+    			if_block.c();
+    			t0 = space();
+    			h1 = element("h1");
+    			h1.textContent = "WEB ASSEMBLY";
+    			attr_dev(h1, "class", "svelte-1hoz2al");
+    			add_location(h1, file, 31, 1, 629);
     			attr_dev(main, "class", "svelte-1hoz2al");
-    			add_location(main, file, 21, 0, 411);
+    			add_location(main, file, 25, 0, 471);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, main, anchor);
-    			if (if_block0) if_block0.m(main, null);
-    			append_dev(main, t);
     			if_blocks[current_block_type_index].m(main, null);
+    			append_dev(main, t0);
+    			append_dev(main, h1);
     			current = true;
+
+    			if (!mounted) {
+    				dispose = listen_dev(h1, "click", /*wasmGreet*/ ctx[2], false, false, false);
+    				mounted = true;
+    			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if (window.ethereum) if_block0.p(ctx, dirty);
     			let previous_block_index = current_block_type_index;
     			current_block_type_index = select_block_type(ctx);
 
@@ -8969,32 +9482,33 @@ var app = (function () {
     				});
 
     				check_outros();
-    				if_block1 = if_blocks[current_block_type_index];
+    				if_block = if_blocks[current_block_type_index];
 
-    				if (!if_block1) {
-    					if_block1 = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
-    					if_block1.c();
+    				if (!if_block) {
+    					if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    					if_block.c();
     				} else {
-    					if_block1.p(ctx, dirty);
+    					if_block.p(ctx, dirty);
     				}
 
-    				transition_in(if_block1, 1);
-    				if_block1.m(main, null);
+    				transition_in(if_block, 1);
+    				if_block.m(main, t0);
     			}
     		},
     		i: function intro(local) {
     			if (current) return;
-    			transition_in(if_block1);
+    			transition_in(if_block);
     			current = true;
     		},
     		o: function outro(local) {
-    			transition_out(if_block1);
+    			transition_out(if_block);
     			current = false;
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(main);
-    			if (if_block0) if_block0.d();
     			if_blocks[current_block_type_index].d();
+    			mounted = false;
+    			dispose();
     		}
     	};
 
@@ -9027,28 +9541,34 @@ var app = (function () {
     		promise = connect();
     	}
 
-    	let { name } = $$props;
-    	const writable_props = ['name'];
+    	let { wasm } = $$props;
+
+    	async function wasmGreet() {
+    		await wasm.greet_user();
+    	}
+
+    	const writable_props = ['wasm'];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<App> was created with unknown prop '${key}'`);
     	});
 
     	$$self.$$set = $$props => {
-    		if ('name' in $$props) $$invalidate(2, name = $$props.name);
+    		if ('wasm' in $$props) $$invalidate(3, wasm = $$props.wasm);
     	};
 
     	$$self.$capture_state = () => ({
     		Contract,
     		connect,
     		connectWallet,
-    		name,
+    		wasm,
+    		wasmGreet,
     		connection,
     		promise
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('name' in $$props) $$invalidate(2, name = $$props.name);
+    		if ('wasm' in $$props) $$invalidate(3, wasm = $$props.wasm);
     		if ('connection' in $$props) $$invalidate(0, connection = $$props.connection);
     		if ('promise' in $$props) promise = $$props.promise;
     	};
@@ -9059,13 +9579,13 @@ var app = (function () {
 
     	promise = connect();
     	$$invalidate(0, connection = window.ethereum ? window.ethereum.isConnected() : false);
-    	return [connection, connectWallet, name];
+    	return [connection, connectWallet, wasmGreet, wasm];
     }
 
     class App extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init$2(this, options, instance, create_fragment, safe_not_equal, { name: 2 });
+    		init$2(this, options, instance, create_fragment, safe_not_equal, { wasm: 3 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -9077,16 +9597,16 @@ var app = (function () {
     		const { ctx } = this.$$;
     		const props = options.props || {};
 
-    		if (/*name*/ ctx[2] === undefined && !('name' in props)) {
-    			console.warn("<App> was created without expected prop 'name'");
+    		if (/*wasm*/ ctx[3] === undefined && !('wasm' in props)) {
+    			console.warn("<App> was created without expected prop 'wasm'");
     		}
     	}
 
-    	get name() {
+    	get wasm() {
     		throw new Error("<App>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
-    	set name(value) {
+    	set wasm(value) {
     		throw new Error("<App>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
@@ -9209,12 +9729,13 @@ var app = (function () {
                         };
 
     const init = async() => {
-    	await wasm();
+    	const wasmlib = await wasm();
     	//await wasmlib.greet_user()
     	new App({
     		target: document.body,
     		props: {
-    			name: 'svelte'
+    			name: 'svelte',
+    			wasm: wasmlib
     		}
     	});
     };

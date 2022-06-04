@@ -7,7 +7,8 @@ const init = async() => {
 	const app = new App({
 		target: document.body,
 		props: {
-			name: 'svelte'
+			name: 'svelte',
+			wasm: wasmlib
 		}
 	});
 }
