@@ -1,5 +1,6 @@
 <script>
 	import Contract from './Contract.svelte'
+	import Navbar from './Navbar.svelte'
 
 	async function connect() {
 		if (window.ethereum) {
@@ -24,6 +25,7 @@
 </script>
 
 <main>
+	<Navbar/>
 	{#if window.ethereum && !connection}
 		<button on:click={connectWallet}>Connect wallet</button>
 	{:else}
@@ -35,7 +37,6 @@
 <style>
 	main {
 		text-align: center;
-		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
 	}
