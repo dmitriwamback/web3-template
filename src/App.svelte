@@ -1,9 +1,34 @@
 <script>
+	import Contract from './Contract.svelte'
+
+	async function connect() {
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum)
+			await window.ethereum.enable()
+
+			connection = window.ethereum.isConnected()
+		}
+	}
+	function connectWallet() {
+		promise = connect()
+	}
+
+	$: promise = connect()
+	$: connection = window.ethereum ? window.ethereum.isConnected() : false;
+
 	export let name;
 </script>
 
 <main>
-	<h1>{name}</h1>
+	{#if window.ethereum}
+		<div>Connection enabled {connection}</div>
+	{/if}
+	{#if window.ethereum && !connection}
+		<button on:click={connectWallet}>Connect wallet</button>
+	{:else}
+		<h1>Hello</h1>
+		<Contract/>
+	{/if}
 </main>
 
 <style>

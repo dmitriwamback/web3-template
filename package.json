@@ -19,6 +19,14 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
-    "sirv-cli": "^2.0.0"
+    "@rollup/plugin-json": "^4.1.0",
+    "@truffle/hdwallet-provider": "^2.0.8",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "dotenv": "^16.0.1",
+    "sirv-cli": "^2.0.0",
+    "svelte-web3": "^3.4.2",
+    "truffle": "^5.5.17",
+    "truffle-hdwallet-provider-privkey": "^0.3.0"
   }
 }
