@@ -8622,7 +8622,7 @@ var app = (function () {
     		c: function create() {
     			h1 = element("h1");
     			t = text(t_value);
-    			add_location(h1, file$1, 20, 4, 573);
+    			add_location(h1, file$1, 20, 4, 576);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -8655,7 +8655,7 @@ var app = (function () {
     		c: function create() {
     			h1 = element("h1");
     			h1.textContent = "Loading";
-    			add_location(h1, file$1, 18, 4, 535);
+    			add_location(h1, file$1, 18, 4, 538);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -8744,8 +8744,8 @@ var app = (function () {
 
     	async function greet() {
     		const web3 = new Web3$1(window.ethereum);
-    		await web3.eth.net.getId();
-    		const deployedNetwork = ArgonContract.networks["5777"];
+    		const networkId = await web3.eth.net.getId();
+    		const deployedNetwork = ArgonContract.networks[networkId];
     		const contract = new web3.eth.Contract(ArgonContract.abi, deployedNetwork.address);
     		const response = await contract.methods.greet().call();
     		return response;
