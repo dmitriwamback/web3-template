@@ -9209,8 +9209,8 @@ var app = (function () {
                         };
 
     const init = async() => {
-    	const wasmlib = await wasm();
-    	await wasmlib.greet_user();
+    	await wasm();
+    	//await wasmlib.greet_user()
     	new App({
     		target: document.body,
     		props: {
